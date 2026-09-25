@@ -9,10 +9,6 @@ public class PactraDbContext : DbContext
         : base(options)
     {
     }
-    public DbSet<User> Users => Set<User>();
-    public DbSet<Role> Roles => Set<Role>();
-    public DbSet<UserRole> UserRoles => Set<UserRole>();
-    public DbSet<Service> Services => Set<Service>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
