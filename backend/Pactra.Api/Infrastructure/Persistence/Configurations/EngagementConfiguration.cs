@@ -45,14 +45,26 @@ public class EngagementConfiguration
 
         entity.HasOne(e => e.Service)
             .WithMany()
-            .HasForeignKey(e => e.ServiceId);
+             .HasForeignKey(e => new
+            {
+                e.ServiceId,
+                e.ProviderId
+            })
+            .HasPrincipalKey(service => new
+            {
+                service.Id,
+                service.ProviderId
+            })
+            .OnDelete(DeleteBehavior.Restrict);
 
         entity.HasOne(e => e.Client)
             .WithMany()
-            .HasForeignKey(e => e.ClientId);
+            .HasForeignKey(e => e.ClientId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         entity.HasOne(e => e.Provider)
             .WithMany()
-            .HasForeignKey(e => e.ProviderId);
+            .HasForeignKey(e => e.ProviderId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

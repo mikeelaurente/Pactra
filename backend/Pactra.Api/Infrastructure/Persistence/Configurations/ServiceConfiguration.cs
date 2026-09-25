@@ -30,5 +30,11 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
         entity.HasOne(service => service.Provider)
             .WithMany()
             .HasForeignKey(service => service.ProviderId);
+
+        entity.HasAlternateKey(service => new
+        {
+            service.Id,
+            service.ProviderId
+        });
     }
 }
