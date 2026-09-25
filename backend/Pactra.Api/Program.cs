@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Pactra.Api.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<PactraDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("PactraDatabase")
+    ));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
