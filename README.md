@@ -482,22 +482,22 @@ These features may be considered later if they support the project's learning go
 
 ## What I Learned
 
-Building Pactra pushed me to think about backend design in a way that goes beyond "just add a status field."
+Building Pactra made me think about backend design beyond just adding a status field.
 
-**State should not be a single arbitrary column.**
-Early on, it was tempting to track everything — signatures, deposits, cancellations — as engagement statuses. Splitting these into their own entities (`Payment`, `AgreementSignature`, `CancellationRequest`) with their own statuses, while keeping the engagement's state as a small, tightly controlled enum, made the system easier to reason about. `AGREEMENT_PENDING` isn't five different flavors of "pending" — it's one state with clearly defined prerequisites that are checked separately.
+**State should not be one arbitrary column.**
+At first, I thought about tracking everything like signatures, deposits, and cancellations as engagement statuses. I ended up giving them their own entities (`Payment`, `AgreementSignature`, `CancellationRequest`) and their own statuses. The engagement itself only keeps a small set of states. This made the system easier to reason about. `AGREEMENT_PENDING` is just one state, and its requirements are checked separately.
 
-**History and current state are different concerns.**
-A rejected payment isn't a mistake to overwrite — it's a business event that happened. Designing `Payment`, `RequirementSubmission`, and `CancellationRequest` as append-only records ("new row per attempt") meant I had to think about uniqueness differently too. For example, a partial unique index (`WHERE status IN ('REQUIRED','PENDING')`) can prevent duplicate _active_ attempts without destroying historical records.
+**History and current state are different things.**
+A rejected payment is still something that happened, so I did not want to overwrite it. I designed `Payment`, `RequirementSubmission`, and `CancellationRequest` as append-only records, where each new attempt creates a new row. This also changed how I handled uniqueness. For example, a partial unique index (`WHERE status IN ('REQUIRED','PENDING')`) can prevent duplicate active attempts while keeping the old records.
 
-**Not every noun needs a table.**
-`EngagementBrief` initially looked like an obvious entity, since the original inspiration had similar structures. But it has no independent lifecycle — nothing queries or updates it separately from the engagement itself — so it became a handful of columns on `Engagement` instead. Deciding _not_ to build something was as much a design decision as deciding to build it.
+**Not every noun needs its own table.**
+`EngagementBrief` looked like it should be an entity at first, especially since the original inspiration had something similar. But it did not have its own lifecycle. Nothing needed to query or update it separately from the engagement. I ended up making it a few columns on `Engagement` instead. Deciding not to create something was also part of the design process.
 
-**Business actions, not generic CRUD.**
-Exposing `PATCH /engagements/:id/status` would have been the easy way to let the frontend drive state changes, but it would also make business rules bypassable from the client. Explicit endpoints such as `submit-completion`, `request-cancellation`, and `approve-cancellation` keep the backend as the authority over what actions are allowed, rather than reducing it to a database with a REST wrapper on top.
+**Business actions are better than generic CRUD.**
+I could have exposed `PATCH /engagements/:id/status` and let the frontend change the status directly. The problem is that this could let the client bypass business rules. Instead, I used specific actions like `submit-completion`, `request-cancellation`, and `approve-cancellation`. This keeps the backend in control of what actions are allowed.
 
-**Planning the domain before touching code paid off.**
-Most of Pactra's design happened in Markdown before a single EF Core entity existed. Working through the state machine helped catch an inconsistency between a diagram and the written specification (deposit vs. signature ordering), while defining the boundaries between `AuditLog` and `EngagementActivity` forced me to decide what each type of history actually represents. Catching those issues on paper was a lot cheaper than catching them in a migration.
+**Planning the domain before coding helped a lot.**
+Most of Pactra's design was done in Markdown before I created any EF Core entities. Working through the state machine helped me catch an inconsistency between the diagram and the written specification, specifically around the order of the deposit and signature. I also had to figure out where `AuditLog` ends and `EngagementActivity` begins. Finding these problems on paper was much easier than finding them after writing migrations and code.
 
 ---
 
