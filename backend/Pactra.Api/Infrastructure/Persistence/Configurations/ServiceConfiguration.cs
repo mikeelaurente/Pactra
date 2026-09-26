@@ -21,6 +21,10 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
             .HasMaxLength(50)
             .IsRequired();
 
+        entity.Property(service => service.BasePrice)
+            .HasPrecision(18, 2)
+            .IsRequired();
+
         entity.Property(service => service.CreatedAt)
             .IsRequired();
 

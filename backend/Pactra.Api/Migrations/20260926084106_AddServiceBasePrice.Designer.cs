@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pactra.Api.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Pactra.Api.Infrastructure.Persistence;
 namespace Pactra.Api.Migrations
 {
     [DbContext(typeof(PactraDbContext))]
-    partial class PactraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260926084106_AddServiceBasePrice")]
+    partial class AddServiceBasePrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
