@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Pactra.Api.Application.Services;
+using Pactra.Api.Infrastructure.Authentication;
 using Pactra.Api.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +11,12 @@ builder.Services.AddDbContext<PactraDbContext>(options =>
     ));
 
 // Add services to the container.
+builder.Services.AddScoped<IEngagementService, EngagementService>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.Configure<JwtOptions>(
+    builder.Configuration.GetSection(JwtOptions.SectionName));
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
