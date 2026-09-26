@@ -21,6 +21,11 @@ public class PactraDbContext : DbContext
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<Requirement> Requirements => Set<Requirement>();
     public DbSet<RequirementSubmission> RequirementSubmissions => Set<RequirementSubmission>();
+    public DbSet<EngagementActivity> EngagementActivities => Set<EngagementActivity>();
+    public DbSet<EngagementStatusHistory> EngagementStatusHistories => Set<EngagementStatusHistory>();
+    public DbSet<CancellationRequest> CancellationRequests => Set<CancellationRequest>();
+    public DbSet<CancellationResolution> CancellationResolutions => Set<CancellationResolution>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
