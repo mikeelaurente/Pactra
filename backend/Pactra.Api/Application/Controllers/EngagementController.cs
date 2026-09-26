@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pactra.Api.Application.DTOs;
 using Pactra.Api.Application.Services;
+using Pactra.Api.Authorization;
 
 namespace Pactra.Api.Application.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("services/{serviceId:long}/engagements")]
 public class EngagementsController(IEngagementService engagementService) : ControllerBase
@@ -11,18 +14,18 @@ public class EngagementsController(IEngagementService engagementService) : Contr
     private readonly IEngagementService _engagementService = engagementService;
 
     [HttpPost]
-public async Task<IActionResult> Create(
-    long serviceId,
-    CreateEngagementRequest request)
-{
-    var clientId = 1; // TODO: Replace with actual authenticated user's ID
+    public async Task<IActionResult> Create(
+        long serviceId,
+        CreateEngagementRequest request)
+    {
+        var clientId = User.GetUserId();
 
-    var engagement = await _engagementService.CreateAsync(
-        serviceId,
-        clientId,
-        request);
+        var engagement = await _engagementService.CreateAsync(
+            serviceId,
+            clientId,
+            request);
 
-    return Ok(engagement);
-}
+        return Ok(engagement);
+    }
 
 }
