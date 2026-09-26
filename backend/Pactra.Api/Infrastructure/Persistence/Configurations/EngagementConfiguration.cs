@@ -34,6 +34,7 @@ public class EngagementConfiguration
             .HasMaxLength(1000);
 
         entity.Property(e => e.Status)
+            .HasConversion<string>()
             .IsRequired()
             .HasMaxLength(50);
 

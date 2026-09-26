@@ -15,6 +15,7 @@ public class CancellationRequestConfiguration
             .IsRequired();
 
         entity.Property(cr => cr.Status)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

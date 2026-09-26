@@ -18,6 +18,7 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
             .IsRequired();
 
         entity.Property(service => service.Status)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

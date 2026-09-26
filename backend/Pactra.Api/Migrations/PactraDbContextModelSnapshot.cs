@@ -49,7 +49,7 @@ namespace Pactra.Api.Migrations
                     b.HasIndex("EngagementId")
                         .IsUnique();
 
-                    b.ToTable("Agreements");
+                    b.ToTable("Agreements", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.AgreementSignature", b =>
@@ -81,7 +81,7 @@ namespace Pactra.Api.Migrations
                     b.HasIndex("AgreementId", "SignerRole")
                         .IsUnique();
 
-                    b.ToTable("AgreementSignatures");
+                    b.ToTable("AgreementSignatures", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.AuditLog", b =>
@@ -121,7 +121,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("EntityType", "EntityId");
 
-                    b.ToTable("AuditLogs");
+                    b.ToTable("AuditLogs", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.CancellationRequest", b =>
@@ -159,7 +159,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("RequestedBy");
 
-                    b.ToTable("CancellationRequests");
+                    b.ToTable("CancellationRequests", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.CancellationResolution", b =>
@@ -191,7 +191,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("ResolvedBy");
 
-                    b.ToTable("CancellationResolutions");
+                    b.ToTable("CancellationResolutions", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.DeliveryPlan", b =>
@@ -238,7 +238,7 @@ namespace Pactra.Api.Migrations
                     b.HasIndex("EngagementId")
                         .IsUnique();
 
-                    b.ToTable("DeliveryPlans");
+                    b.ToTable("DeliveryPlans", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Engagement", b =>
@@ -308,7 +308,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("ServiceId", "ProviderId");
 
-                    b.ToTable("Engagements");
+                    b.ToTable("Engagements", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.EngagementActivity", b =>
@@ -343,7 +343,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("EngagementId");
 
-                    b.ToTable("EngagementActivities");
+                    b.ToTable("EngagementActivities", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.EngagementStatusHistory", b =>
@@ -379,7 +379,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("EngagementId");
 
-                    b.ToTable("EngagementStatusHistories");
+                    b.ToTable("EngagementStatusHistories", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Payment", b =>
@@ -431,7 +431,7 @@ namespace Pactra.Api.Migrations
                         .IsUnique()
                         .HasFilter("\"Status\" IN ('REQUIRED', 'PENDING')");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Proposal", b =>
@@ -479,7 +479,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("ProposedBy");
 
-                    b.ToTable("Proposals");
+                    b.ToTable("Proposals", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Requirement", b =>
@@ -522,7 +522,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("EngagementId");
 
-                    b.ToTable("Requirements");
+                    b.ToTable("Requirements", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.RequirementSubmission", b =>
@@ -570,7 +570,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("SubmittedBy");
 
-                    b.ToTable("RequirementSubmissions");
+                    b.ToTable("RequirementSubmissions", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Role", b =>
@@ -591,7 +591,7 @@ namespace Pactra.Api.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Service", b =>
@@ -633,7 +633,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Session", b =>
@@ -668,7 +668,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("Sessions", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.User", b =>
@@ -705,7 +705,7 @@ namespace Pactra.Api.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.UserRole", b =>
@@ -720,7 +720,7 @@ namespace Pactra.Api.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Agreement", b =>

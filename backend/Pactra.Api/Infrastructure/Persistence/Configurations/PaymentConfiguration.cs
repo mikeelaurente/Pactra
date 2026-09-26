@@ -11,6 +11,7 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
         entity.HasKey(payment => payment.Id);
 
         entity.Property(payment => payment.Type)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 
@@ -22,6 +23,7 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
             .HasMaxLength(255);
 
         entity.Property(payment => payment.Status)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pactra.Api.Domain.Entities;
+
 namespace Pactra.Api.Infrastructure.Persistence.Configurations;
 
 
@@ -18,6 +19,7 @@ public class RequirementSubmissionConfiguration : IEntityTypeConfiguration<Requi
             .HasMaxLength(1000);
 
         entity.Property(submission => submission.Status)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

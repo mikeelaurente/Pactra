@@ -21,6 +21,7 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
             .HasMaxLength(2000);
 
         entity.Property(proposal => proposal.Status)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

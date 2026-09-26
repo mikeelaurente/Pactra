@@ -19,6 +19,7 @@ public class RequirementConfiguration
             .HasMaxLength(1000);
 
         entity.Property(requirement => requirement.Status)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

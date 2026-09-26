@@ -12,6 +12,7 @@ public class AgreementSignatureConfiguration
         entity.HasKey(signature => signature.Id);
 
         entity.Property(signature => signature.SignerRole)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

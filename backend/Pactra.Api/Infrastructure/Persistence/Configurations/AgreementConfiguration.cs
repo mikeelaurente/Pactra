@@ -14,6 +14,7 @@ public class AgreementConfiguration : IEntityTypeConfiguration<Agreement>
             .IsRequired();
 
         entity.Property(agreement => agreement.Status)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

@@ -10,10 +10,12 @@ public class EngagementStatusHistoryConfiguration
         entity.HasKey(esh => esh.Id);
 
         entity.Property(esh => esh.FromStatus)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 
         entity.Property(esh => esh.ToStatus)
+            .HasConversion<string>()
             .HasMaxLength(50)
             .IsRequired();
 

@@ -1,4 +1,4 @@
-using Pactra.Api.Domain.Enum;
+using Pactra.Api.Domain.Enums;
 
 namespace Pactra.Api.Domain.Entities;
 public class Service

@@ -1,4 +1,4 @@
-namespace Pactra.Api.Domain.Enum;
+namespace Pactra.Api.Domain.Enums;
 
 public enum ProposalStatus
 {
