@@ -24,8 +24,6 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
             .HasMaxLength(50)
             .IsRequired();
 
-        entity.Property(proposal => proposal.ExpiresAt);
-
         entity.Property(proposal => proposal.CreatedAt)
             .IsRequired();
 

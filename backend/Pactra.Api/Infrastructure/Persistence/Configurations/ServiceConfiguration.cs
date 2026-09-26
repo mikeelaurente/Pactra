@@ -29,7 +29,8 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
 
         entity.HasOne(service => service.Provider)
             .WithMany()
-            .HasForeignKey(service => service.ProviderId);
+            .HasForeignKey(service => service.ProviderId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         entity.HasAlternateKey(service => new
         {
