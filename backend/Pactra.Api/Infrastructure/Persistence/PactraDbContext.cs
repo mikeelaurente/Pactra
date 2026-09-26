@@ -25,6 +25,8 @@ public class PactraDbContext : DbContext
     public DbSet<EngagementStatusHistory> EngagementStatusHistories => Set<EngagementStatusHistory>();
     public DbSet<CancellationRequest> CancellationRequests => Set<CancellationRequest>();
     public DbSet<CancellationResolution> CancellationResolutions => Set<CancellationResolution>();
+    public DbSet<DeliveryPlan> DeliveryPlans => Set<DeliveryPlan>();
+    public DbSet<Session> Sessions => Set<Session>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
