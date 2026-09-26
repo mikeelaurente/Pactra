@@ -37,5 +37,13 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
             .WithMany()
             .HasForeignKey(payment => payment.VerifiedBy)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        entity.HasIndex(payment => new
+        {
+            payment.EngagementId,
+            payment.Type
+        })
+        .IsUnique()
+        .HasFilter("\"Status\" IN ('REQUIRED', 'PENDING')");
     }
 }

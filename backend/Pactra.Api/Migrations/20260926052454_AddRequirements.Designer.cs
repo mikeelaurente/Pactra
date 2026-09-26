@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pactra.Api.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Pactra.Api.Infrastructure.Persistence;
 namespace Pactra.Api.Migrations
 {
     [DbContext(typeof(PactraDbContext))]
-    partial class PactraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260926052454_AddRequirements")]
+    partial class AddRequirements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,54 +300,6 @@ namespace Pactra.Api.Migrations
                     b.ToTable("Requirements");
                 });
 
-            modelBuilder.Entity("Pactra.Api.Domain.Entities.RequirementSubmission", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("FileUrl")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<long>("RequirementId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTimeOffset?>("ReviewedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long?>("ReviewedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTimeOffset>("SubmittedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long>("SubmittedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RequirementId");
-
-                    b.HasIndex("ReviewedBy");
-
-                    b.HasIndex("SubmittedBy");
-
-                    b.ToTable("RequirementSubmissions");
-                });
-
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -568,32 +523,6 @@ namespace Pactra.Api.Migrations
                     b.Navigation("Creator");
 
                     b.Navigation("Engagement");
-                });
-
-            modelBuilder.Entity("Pactra.Api.Domain.Entities.RequirementSubmission", b =>
-                {
-                    b.HasOne("Pactra.Api.Domain.Entities.Requirement", "Requirement")
-                        .WithMany()
-                        .HasForeignKey("RequirementId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Pactra.Api.Domain.Entities.User", "Reviewer")
-                        .WithMany()
-                        .HasForeignKey("ReviewedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Pactra.Api.Domain.Entities.User", "Submitter")
-                        .WithMany()
-                        .HasForeignKey("SubmittedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Requirement");
-
-                    b.Navigation("Reviewer");
-
-                    b.Navigation("Submitter");
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Service", b =>

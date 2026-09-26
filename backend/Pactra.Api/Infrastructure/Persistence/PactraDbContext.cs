@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Pactra.Api.Domain.Entities;
+using Pactra.Api.Infrastructure.Persistence.Configurations;
 
 namespace Pactra.Api.Infrastructure.Persistence;
 
@@ -18,6 +19,8 @@ public class PactraDbContext : DbContext
     public DbSet<Agreement> Agreements => Set<Agreement>();
     public DbSet<AgreementSignature> AgreementSignatures => Set<AgreementSignature>();
     public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<Requirement> Requirements => Set<Requirement>();
+    public DbSet<RequirementSubmission> RequirementSubmissions => Set<RequirementSubmission>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
