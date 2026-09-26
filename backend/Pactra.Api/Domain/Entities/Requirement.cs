@@ -1,3 +1,5 @@
+using Pactra.Api.Domain.Enum;
+
 namespace Pactra.Api.Domain.Entities;
 
 public class Requirement
@@ -14,7 +16,7 @@ public class Requirement
 
     public DateTimeOffset DueDate { get; set; }
 
-    public string Status { get; set; } = string.Empty;
+    public RequirementStatus Status { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
 

@@ -1,3 +1,5 @@
+using Pactra.Api.Domain.Enum;
+
 namespace Pactra.Api.Domain.Entities;
 
 public class RequirementSubmission
@@ -10,7 +12,7 @@ public class RequirementSubmission
     public string FileUrl { get; set; } = string.Empty;
     public string? Notes { get; set; }
 
-    public string Status { get; set; } = string.Empty;
+    public RequirementSubmissionStatus Status { get; set; }
 
     public DateTimeOffset SubmittedAt { get; set; }
 

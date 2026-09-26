@@ -1,3 +1,5 @@
+using Pactra.Api.Domain.Enum;
+
 namespace Pactra.Api.Domain.Entities;
 
 public class Engagement
@@ -13,7 +15,7 @@ public class Engagement
     public decimal? Budget { get; set; }
     public DateTimeOffset? DesiredStartDate { get; set; }
     public string? AdditionalInfo { get; set; }
-    public string Status { get; set; } = string.Empty;
+    public EngagementStatus Status { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
     public Service Service { get; set; } = null!;

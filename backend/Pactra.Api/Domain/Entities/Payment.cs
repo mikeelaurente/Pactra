@@ -1,3 +1,5 @@
+using Pactra.Api.Domain.Enum;
+
 namespace Pactra.Api.Domain.Entities;
 
 public class Payment
@@ -6,7 +8,7 @@ public class Payment
 
     public long EngagementId { get; set; }
 
-    public string Type { get; set; } = string.Empty;
+    public PaymentType Type { get; set; }
 
     public decimal Amount { get; set; }
 
@@ -18,7 +20,7 @@ public class Payment
 
     public long? VerifiedBy { get; set; }
 
-    public string Status { get; set; } = string.Empty;
+    public PaymentStatus Status { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
 

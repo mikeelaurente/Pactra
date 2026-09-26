@@ -1,3 +1,5 @@
+using Pactra.Api.Domain.Enum;
+
 namespace Pactra.Api.Domain.Entities;
 
 public class Proposal
@@ -11,7 +13,7 @@ public class Proposal
 
     public DateTimeOffset? ExpiresAt { get; set; }
 
-    public string Status { get; set; } = string.Empty;
+    public ProposalStatus Status { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
 

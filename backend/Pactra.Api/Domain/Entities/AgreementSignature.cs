@@ -1,3 +1,5 @@
+using Pactra.Api.Domain.Enum;
+
 namespace Pactra.Api.Domain.Entities;
 
 public class AgreementSignature
@@ -5,7 +7,7 @@ public class AgreementSignature
     public long Id { get; set; }
     public long AgreementId { get; set; }
     public long SignerId { get; set; }
-    public string SignerRole { get; set; } = string.Empty;
+    public AgreementSignerRole SignerRole { get; set; }
     public DateTimeOffset SignedAt { get; set; }
     public Agreement Agreement { get; set; } = null!;
     public User Signer { get; set; } = null!;
