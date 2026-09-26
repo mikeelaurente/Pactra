@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Pactra.Api.Application.DTOs;
+using Pactra.Api.Application.Interfaces;
 using Pactra.Api.Domain.Entities;
 using Pactra.Api.Domain.Enums;
 using Pactra.Api.Infrastructure.Persistence;

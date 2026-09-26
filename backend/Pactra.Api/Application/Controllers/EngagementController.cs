@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Pactra.Api.Application.Authorization;
 using Pactra.Api.Application.DTOs;
-using Pactra.Api.Application.Services;
-using Pactra.Api.Authorization;
+using Pactra.Api.Application.Interfaces;
 
 namespace Pactra.Api.Application.Controllers;
 

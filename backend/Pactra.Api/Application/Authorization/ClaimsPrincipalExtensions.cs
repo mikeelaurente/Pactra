@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace Pactra.Api.Authorization;
+namespace Pactra.Api.Application.Authorization;
 
 public static class ClaimsPrincipalExtensions
 {

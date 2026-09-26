@@ -1,7 +1,7 @@
 using Pactra.Api.Application.DTOs;
 using Pactra.Api.Domain.Entities;
 
-namespace Pactra.Api.Application.Services;
+namespace Pactra.Api.Application.Interfaces;
 
 public interface IEngagementService
 {
