@@ -12,8 +12,8 @@ using Pactra.Api.Infrastructure.Persistence;
 namespace Pactra.Api.Migrations;
 
 [DbContext(typeof(PactraDbContext))]
-[Migration("20260925194152_AddServicesAndEngagements")]
-partial class AddServicesAndEngagements
+[Migration("20260926041854_AddAgreements")]
+partial class AddAgreements
 {
     /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ partial class AddServicesAndEngagements
             .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
         NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+        modelBuilder.Entity("Pactra.Api.Domain.Entities.Agreement", b =>
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
+
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                b.Property<DateTimeOffset>("CreatedAt")
+                    .HasColumnType("timestamp with time zone");
+
+                b.Property<long>("EngagementId")
+                    .HasColumnType("bigint");
+
+                b.Property<string>("Status")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("character varying(50)");
+
+                b.Property<int>("Version")
+                    .HasColumnType("integer");
+
+                b.HasKey("Id");
+
+                b.HasIndex("EngagementId")
+                    .IsUnique();
+
+                b.ToTable("Agreements");
+            });
 
         modelBuilder.Entity("Pactra.Api.Domain.Entities.Engagement", b =>
             {
@@ -92,7 +122,55 @@ partial class AddServicesAndEngagements
 
                 b.HasIndex("ServiceId", "ProviderId");
 
-                b.ToTable("Engagement");
+                b.ToTable("Engagements");
+            });
+
+        modelBuilder.Entity("Pactra.Api.Domain.Entities.Proposal", b =>
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
+
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                b.Property<decimal>("Amount")
+                    .HasPrecision(18, 2)
+                    .HasColumnType("numeric(18,2)");
+
+                b.Property<DateTimeOffset>("CreatedAt")
+                    .HasColumnType("timestamp with time zone");
+
+                b.Property<string>("Description")
+                    .HasMaxLength(1000)
+                    .HasColumnType("character varying(1000)");
+
+                b.Property<long>("EngagementId")
+                    .HasColumnType("bigint");
+
+                b.Property<DateTimeOffset?>("ExpiresAt")
+                    .HasColumnType("timestamp with time zone");
+
+                b.Property<long>("ProposedBy")
+                    .HasColumnType("bigint");
+
+                b.Property<string>("Status")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("character varying(50)");
+
+                b.Property<string>("Terms")
+                    .HasMaxLength(2000)
+                    .HasColumnType("character varying(2000)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("EngagementId")
+                    .IsUnique()
+                    .HasFilter("\"Status\" = 'ACCEPTED'");
+
+                b.HasIndex("ProposedBy");
+
+                b.ToTable("Proposals");
             });
 
         modelBuilder.Entity("Pactra.Api.Domain.Entities.Role", b =>
@@ -206,6 +284,17 @@ partial class AddServicesAndEngagements
                 b.ToTable("UserRoles");
             });
 
+        modelBuilder.Entity("Pactra.Api.Domain.Entities.Agreement", b =>
+            {
+                b.HasOne("Pactra.Api.Domain.Entities.Engagement", "Engagement")
+                    .WithMany()
+                    .HasForeignKey("EngagementId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.Navigation("Engagement");
+            });
+
         modelBuilder.Entity("Pactra.Api.Domain.Entities.Engagement", b =>
             {
                 b.HasOne("Pactra.Api.Domain.Entities.User", "Client")
@@ -234,12 +323,31 @@ partial class AddServicesAndEngagements
                 b.Navigation("Service");
             });
 
+        modelBuilder.Entity("Pactra.Api.Domain.Entities.Proposal", b =>
+            {
+                b.HasOne("Pactra.Api.Domain.Entities.Engagement", "Engagement")
+                    .WithMany()
+                    .HasForeignKey("EngagementId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.HasOne("Pactra.Api.Domain.Entities.User", "Proposer")
+                    .WithMany()
+                    .HasForeignKey("ProposedBy")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.Navigation("Engagement");
+
+                b.Navigation("Proposer");
+            });
+
         modelBuilder.Entity("Pactra.Api.Domain.Entities.Service", b =>
             {
                 b.HasOne("Pactra.Api.Domain.Entities.User", "Provider")
                     .WithMany()
                     .HasForeignKey("ProviderId")
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
 
                 b.Navigation("Provider");

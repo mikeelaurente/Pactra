@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pactra.Api.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Pactra.Api.Infrastructure.Persistence;
 namespace Pactra.Api.Migrations
 {
     [DbContext(typeof(PactraDbContext))]
-    partial class PactraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260926044040_AddAgreementSignatures")]
+    partial class AddAgreementSignatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,56 +155,6 @@ namespace Pactra.Api.Migrations
                     b.HasIndex("ServiceId", "ProviderId");
 
                     b.ToTable("Engagements");
-                });
-
-            modelBuilder.Entity("Pactra.Api.Domain.Entities.Payment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long>("EngagementId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ReferenceNumber")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTimeOffset?>("SubmittedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTimeOffset?>("VerifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<long?>("VerifiedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EngagementId");
-
-                    b.HasIndex("VerifiedBy");
-
-                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Proposal", b =>
@@ -419,24 +372,6 @@ namespace Pactra.Api.Migrations
                     b.Navigation("Provider");
 
                     b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("Pactra.Api.Domain.Entities.Payment", b =>
-                {
-                    b.HasOne("Pactra.Api.Domain.Entities.Engagement", "Engagement")
-                        .WithMany()
-                        .HasForeignKey("EngagementId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Pactra.Api.Domain.Entities.User", "Verifier")
-                        .WithMany()
-                        .HasForeignKey("VerifiedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Engagement");
-
-                    b.Navigation("Verifier");
                 });
 
             modelBuilder.Entity("Pactra.Api.Domain.Entities.Proposal", b =>

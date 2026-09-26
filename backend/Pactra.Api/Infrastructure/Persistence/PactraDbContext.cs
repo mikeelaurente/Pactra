@@ -15,6 +15,9 @@ public class PactraDbContext : DbContext
     public DbSet<Service> Services => Set<Service>();
     public DbSet<Engagement> Engagements => Set<Engagement>();
     public DbSet<Proposal> Proposals => Set<Proposal>();
+    public DbSet<Agreement> Agreements => Set<Agreement>();
+    public DbSet<AgreementSignature> AgreementSignatures => Set<AgreementSignature>();
+    public DbSet<Payment> Payments => Set<Payment>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

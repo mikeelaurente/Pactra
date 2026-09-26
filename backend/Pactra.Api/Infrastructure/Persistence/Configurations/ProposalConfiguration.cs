@@ -36,5 +36,9 @@ public class ProposalConfiguration : IEntityTypeConfiguration<Proposal>
             .WithMany()
             .HasForeignKey(proposal => proposal.ProposedBy)
             .OnDelete(DeleteBehavior.Restrict);
+
+        entity.HasIndex(proposal => proposal.EngagementId)
+            .IsUnique()
+            .HasFilter("\"Status\" = 'ACCEPTED'");
     }
 }
