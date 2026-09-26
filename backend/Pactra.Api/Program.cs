@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Pactra.Api.Application.Services;
 using Pactra.Api.Infrastructure.Authentication;
 using Pactra.Api.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Scalar.AspNetCore;
-using Pactra.Api.Application.Interfaces;
+using Pactra.Api.Configuration.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +15,7 @@ builder.Services.AddDbContext<PactraDbContext>(options =>
     ));
 
 // Add services to the container.
-builder.Services.AddScoped<IEngagementService, EngagementService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddApplicationServices();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 builder.Services.Configure<JwtOptions>(
