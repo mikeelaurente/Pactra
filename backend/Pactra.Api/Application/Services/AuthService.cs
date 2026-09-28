@@ -15,9 +15,11 @@ public class AuthService(PactraDbContext db, IJwtTokenService jwtService) : IAut
     public async Task<string> LoginAsync(LoginRequest request)
     {
         var user = await _db.Users
-        .FirstOrDefaultAsync(
-            u => u.Email == request.Email
-        ) ?? throw new UnauthorizedAccessException("Invalid credentials");
+            .Include(u => u.UserRoles)
+            .ThenInclude(ur => ur.Role)
+            .FirstOrDefaultAsync(
+                u => u.Email == request.Email
+            ) ?? throw new UnauthorizedAccessException("Invalid credentials");
 
         var isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
         if (!isPasswordValid)
@@ -33,6 +35,8 @@ public class AuthService(PactraDbContext db, IJwtTokenService jwtService) : IAut
         var userExists = await _db.Users.AnyAsync(u => u.Email == request.Email);
         if (userExists) return false;
 
+        var clientRole = await _db.Roles.FirstOrDefaultAsync(r => r.Name == "CLIENT") ?? throw new InvalidOperationException("Client role not found");
+
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
         var newUser = new User
@@ -43,6 +47,15 @@ public class AuthService(PactraDbContext db, IJwtTokenService jwtService) : IAut
         };
 
         _db.Users.Add(newUser);
+
+        var newUserRole = new UserRole
+        {
+            User = newUser,
+            Role = clientRole
+        };
+
+        _db.UserRoles.Add(newUserRole);
+
         await _db.SaveChangesAsync();
 
         return true;

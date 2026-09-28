@@ -16,5 +16,12 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         entity.HasIndex(role => role.Name)
             .IsUnique();
+
+        entity.HasData(
+            new Role { Id = 1, Name = "CLIENT" },
+            new Role { Id = 2, Name = "PROVIDER" },
+            new Role { Id = 3, Name = "OPERATIONS" },
+            new Role { Id = 4, Name = "PLATFORM_ADMIN" }
+        );
     }
 }

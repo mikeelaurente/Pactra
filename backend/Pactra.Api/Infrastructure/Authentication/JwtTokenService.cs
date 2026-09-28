@@ -13,17 +13,23 @@ public class JwtTokenService(IOptions<JwtOptions> options) : IJwtTokenService
 
     public string GenerateAccessToken(User user)
     {
-        var claims = new[]
+        var claims = new List<Claim>
         {
-        new Claim(
+        new(
             ClaimTypes.NameIdentifier,
             user.Id.ToString()
         ),
-        new Claim(
+        new (
             ClaimTypes.Email,
             user.Email
         )
-    };
+        };
+
+        var roleClaims = user.UserRoles
+            .Select(ur => new Claim(ClaimTypes.Role, ur.Role.Name))
+            .ToList(); 
+
+        claims.AddRange(roleClaims);
 
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_options.Secret)
