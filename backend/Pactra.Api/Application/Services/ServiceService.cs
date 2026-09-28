@@ -49,7 +49,7 @@ public class ServiceService(PactraDbContext db) : IServiceService
         }
 
         var services = await query.OrderByDescending(s => s.CreatedAt).ToListAsync();
-        return services.Select(MapToDto).ToList();
+        return [.. services.Select(MapToDto)];
     }
 
     public async Task<ServiceDto> UpdateAsync(long serviceId, long providerId, UpdateServiceRequest request)
