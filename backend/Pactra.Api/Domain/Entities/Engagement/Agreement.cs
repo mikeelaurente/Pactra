@@ -1,6 +1,6 @@
 using Pactra.Api.Domain.Enums;
 
-namespace Pactra.Api.Domain.Entities;
+namespace Pactra.Api.Domain.Entities.Engagement;
 public class Agreement
 {
     public long Id { get; set; }

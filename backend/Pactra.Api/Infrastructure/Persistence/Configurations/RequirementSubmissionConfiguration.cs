@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Pactra.Api.Domain.Entities;
+using Pactra.Api.Domain.Entities.Engagement;
 
 namespace Pactra.Api.Infrastructure.Persistence.Configurations;
 

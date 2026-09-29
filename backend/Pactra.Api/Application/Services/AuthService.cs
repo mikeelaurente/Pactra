@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Pactra.Api.Application.DTOs.Authentication;
 using Pactra.Api.Application.Interfaces;
-using Pactra.Api.Domain.Entities;
+using Pactra.Api.Domain.Entities.Authentication;
 using Pactra.Api.Infrastructure.Authentication;
 using Pactra.Api.Infrastructure.Persistence;
 

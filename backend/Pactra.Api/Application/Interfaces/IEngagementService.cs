@@ -1,5 +1,5 @@
 using Pactra.Api.Application.DTOs;
-using Pactra.Api.Domain.Entities;
+using Pactra.Api.Domain.Entities.Engagement;
 
 namespace Pactra.Api.Application.Interfaces;
 

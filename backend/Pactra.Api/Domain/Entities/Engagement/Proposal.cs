@@ -1,6 +1,7 @@
+using Pactra.Api.Domain.Entities.Authentication;
 using Pactra.Api.Domain.Enums;
 
-namespace Pactra.Api.Domain.Entities;
+namespace Pactra.Api.Domain.Entities.Engagement;
 
 public class Proposal
 {

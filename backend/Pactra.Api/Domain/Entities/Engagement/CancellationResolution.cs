@@ -1,4 +1,6 @@
-namespace Pactra.Api.Domain.Entities;
+using Pactra.Api.Domain.Entities.Authentication;
+
+namespace Pactra.Api.Domain.Entities.Engagement;
 
 
 public class CancellationResolution

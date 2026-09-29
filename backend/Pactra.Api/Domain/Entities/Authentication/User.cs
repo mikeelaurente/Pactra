@@ -1,4 +1,4 @@
-namespace Pactra.Api.Domain.Entities;
+namespace Pactra.Api.Domain.Entities.Authentication;
 public class User
 {
     public long Id { get; set; }

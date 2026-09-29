@@ -50,4 +50,11 @@ public class ServicesController(IServiceService serviceService) : ControllerBase
         await _serviceService.DeleteAsync(id, providerId);
         return NoContent();
     }
+
+    [Authorize(Roles = "PROVIDER")]
+    [HttpGet("provider-test")]
+    public IActionResult ProviderTest()
+    {
+        return Ok("You are a provider!");
+    }
 }

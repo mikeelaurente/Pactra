@@ -1,4 +1,5 @@
-namespace Pactra.Api.Domain.Entities;
+
+namespace Pactra.Api.Domain.Entities.Engagement;
 
 public class DeliveryPlan
 {

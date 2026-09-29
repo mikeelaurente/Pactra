@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Pactra.Api.Domain.Entities;
+using Pactra.Api.Domain.Entities.Audit;
+using Pactra.Api.Domain.Entities.Authentication;
+using Pactra.Api.Domain.Entities.Catalog;
+using Pactra.Api.Domain.Entities.Engagement;
+using Pactra.Api.Domain.Entities.Engagement.History;
 using Pactra.Api.Infrastructure.Persistence.Configurations;
 
 namespace Pactra.Api.Infrastructure.Persistence;
