@@ -19,6 +19,12 @@ public class EngagementService(PactraDbContext db) : IEngagementService
         var service = await _db.Services
             .FirstOrDefaultAsync(s => s.Id == serviceId) ?? throw new KeyNotFoundException("Service not found.");
         
+        if (clientId == service.ProviderId)
+        {
+            throw new InvalidOperationException(
+                "The client cannot be the provider of the service.");
+        }
+
         if (service.Status != ServiceStatus.Active)
         {
             throw new InvalidOperationException(

@@ -13,6 +13,7 @@ public class EngagementsController(IEngagementService engagementService) : Contr
 {
     private readonly IEngagementService _engagementService = engagementService;
 
+    [Authorize(Roles = "CLIENT")]
     [HttpPost]
     public async Task<IActionResult> Create(
         long serviceId,
@@ -25,7 +26,7 @@ public class EngagementsController(IEngagementService engagementService) : Contr
             clientId,
             request);
 
-        return Ok(engagement);
+        return StatusCode(StatusCodes.Status201Created, engagement);
     }
 
 }
