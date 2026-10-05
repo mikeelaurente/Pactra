@@ -9,4 +9,14 @@ public interface IEngagementService
         long serviceId,
         long clientId,
         CreateEngagementRequest request);
+
+    Task<Engagement> AcceptAsync(
+        long serviceId,
+        long engagementId,
+        long providerId);
+
+    Task<Engagement> RejectAsync(
+        long serviceId,
+        long engagementId,
+        long providerId);
 }

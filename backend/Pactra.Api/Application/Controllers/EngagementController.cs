@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pactra.Api.Application.Authorization;
 using Pactra.Api.Application.DTOs;
 using Pactra.Api.Application.Interfaces;
+using Pactra.Api.Domain.Entities.Engagement;
 
 namespace Pactra.Api.Application.Controllers;
 
@@ -29,4 +30,35 @@ public class EngagementsController(IEngagementService engagementService) : Contr
         return StatusCode(StatusCodes.Status201Created, engagement);
     }
 
+    [Authorize(Roles = "PROVIDER")]
+    [HttpPost("{engagementId:long}/accept")]
+    public async Task<IActionResult> Accept(
+        long serviceId,
+        long engagementId)
+    {
+        var providerId = User.GetUserId();
+
+        var engagement = await _engagementService.AcceptAsync(
+            serviceId,
+            engagementId,
+            providerId);
+
+        return Ok(engagement);
+    }
+
+    [Authorize(Roles = "PROVIDER")]
+    [HttpPost("{engagementId:long}/reject")]
+    public async Task<IActionResult> Reject(
+        long serviceId,
+        long engagementId)
+    {
+        var providerId = User.GetUserId();
+
+        var engagement = await _engagementService.RejectAsync(
+            serviceId,
+            engagementId,
+            providerId);
+
+        return Ok(engagement);
+    }
 }

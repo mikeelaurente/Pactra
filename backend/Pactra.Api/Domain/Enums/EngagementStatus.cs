@@ -9,7 +9,7 @@ public enum EngagementStatus
     CompletionReview,
     Completed,
     Settled,
-    Declined,
+    Rejected,
     Expired,
     CancellationRequested,
     Cancelled

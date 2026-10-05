@@ -56,4 +56,62 @@ public class EngagementService(PactraDbContext db) : IEngagementService
 
         return engagement;
     }
+
+    public async Task<Engagement> AcceptAsync(
+        long serviceId,
+        long engagementId,
+        long providerId)
+    {
+        var engagement = await _db.Engagements
+            .FirstOrDefaultAsync(e => e.Id == engagementId && e.ServiceId == serviceId) 
+            ?? throw new KeyNotFoundException("Engagement not found.");
+
+        if (engagement.ProviderId != providerId)
+        {
+            throw new InvalidOperationException(
+                "The provider is not authorized to accept this engagement.");
+        }
+
+        if (engagement.Status != EngagementStatus.Requested)
+        {
+            throw new InvalidOperationException(
+                "Only requested engagements can be accepted.");
+        }
+
+        engagement.Status = EngagementStatus.Negotiating;
+        engagement.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+
+        return engagement;
+    }
+    
+    public async Task<Engagement> RejectAsync(
+        long serviceId,
+        long engagementId,
+        long providerId)
+    {
+        var engagement = await _db.Engagements
+            .FirstOrDefaultAsync(e => e.Id == engagementId && e.ServiceId == serviceId) 
+            ?? throw new KeyNotFoundException("Engagement not found.");
+
+        if (engagement.ProviderId != providerId)
+        {
+            throw new InvalidOperationException(
+                "The provider is not authorized to reject this engagement.");
+        }
+
+        if (engagement.Status != EngagementStatus.Requested)
+        {
+            throw new InvalidOperationException(
+                "Only requested engagements can be rejected.");
+        }
+
+        engagement.Status = EngagementStatus.Rejected;
+        engagement.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _db.SaveChangesAsync();
+
+        return engagement;
+    }
 }

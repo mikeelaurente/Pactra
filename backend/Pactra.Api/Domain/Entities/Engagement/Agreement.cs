@@ -10,4 +10,6 @@ public class Agreement
     public DateTimeOffset CreatedAt { get; set; }
 
     public Engagement Engagement { get; set; } = null!;
+
+    public ICollection<AgreementSignature> Signatures { get; set; } = [];
 }
