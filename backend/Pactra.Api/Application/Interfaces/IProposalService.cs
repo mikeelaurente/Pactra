@@ -4,9 +4,6 @@ namespace Pactra.Api.Application.Interfaces;
 
 public interface IProposalService
 {
-    // Task<ProposalDto> GetProposalByIdAsync(int id);
-    // Task<IEnumerable<ProposalDto>> GetAllProposalsAsync();
-    Task<ProposalDto> CreateProposalAsync(CreateProposalDto createProposalDto);
-    // Task<ProposalDto> UpdateProposalAsync(int id, UpdateProposalDto updateProposalDto);
-    // Task DeleteProposalAsync(int id);
+    Task<ProposalDto> CreateProposalAsync(long engagementId,long userId, CreateProposalDto createProposalDto);
+    Task<ProposalDto> AcceptProposalAsync(long engagementId, long proposalId, long userId);
 }

@@ -12,4 +12,5 @@ public class ProposalDto
     public string? Terms { get; set; }
     public ProposalStatus Status { get; set; }
     public DateTimeOffset? ExpiresAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 }

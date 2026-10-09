@@ -17,16 +17,11 @@ public class EngagementsController(IEngagementService engagementService) : Contr
     [Authorize(Roles = "CLIENT")]
     [HttpPost]
     public async Task<IActionResult> Create(
-        long serviceId,
-        CreateEngagementRequest request)
+        [FromRoute] long serviceId,
+        [FromBody] CreateEngagementRequest request)
     {
         var clientId = User.GetUserId();
-
-        var engagement = await _engagementService.CreateAsync(
-            serviceId,
-            clientId,
-            request);
-
+        var engagement = await _engagementService.CreateAsync(serviceId, clientId, request);
         return StatusCode(StatusCodes.Status201Created, engagement);
     }
 
