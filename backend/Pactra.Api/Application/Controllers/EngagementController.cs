@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Pactra.Api.Application.Authorization;
 using Pactra.Api.Application.DTOs;
 using Pactra.Api.Application.Interfaces;
-using Pactra.Api.Domain.Entities.Engagement;
 
 namespace Pactra.Api.Application.Controllers;
 
