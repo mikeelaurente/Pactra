@@ -25,5 +25,24 @@ services:
       timeout: 5s
       retries: 10
 
+  migrate:
+    image: mcr.microsoft.com/dotnet/sdk:10.0
+    profiles:
+      - tools
+    working_dir: /src
+    volumes:
+      - .:/src
+    environment:
+      ConnectionStrings__PactraDatabase: "Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        dotnet tool install --global dotnet-ef --version 10.0.12
+        export PATH="$$PATH:/root/.dotnet/tools"
+        dotnet ef database update
+
 volumes:
   postgres_data:
