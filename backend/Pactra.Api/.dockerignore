@@ -1,0 +1,21 @@
+# Build artifacts
+**/bin/
+**/obj/
+
+# Git and editor files
+.git/
+.vs/
+.vscode/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Sensitive local configurations
+**/appsettings.Development.json
+**/appsettings.Production.json
+
+# User-specific files
+*.user
+*.suo

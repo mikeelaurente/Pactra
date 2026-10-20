@@ -30,6 +30,13 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        if (string.IsNullOrWhiteSpace(jwtOptions.Secret) ||
+            Encoding.UTF8.GetByteCount(jwtOptions.Secret) < 32)
+        {
+            throw new InvalidOperationException(
+                "JWT secret must be at least 32 bytes.");
+        }
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,

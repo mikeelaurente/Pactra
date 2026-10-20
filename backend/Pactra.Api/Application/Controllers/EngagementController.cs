@@ -27,8 +27,8 @@ public class EngagementsController(IEngagementService engagementService) : Contr
     [Authorize(Roles = "PROVIDER")]
     [HttpPost("{engagementId:long}/accept")]
     public async Task<IActionResult> Accept(
-        long serviceId,
-        long engagementId)
+        [FromRoute] long serviceId,
+        [FromRoute] long engagementId)
     {
         var providerId = User.GetUserId();
 
@@ -43,8 +43,8 @@ public class EngagementsController(IEngagementService engagementService) : Contr
     [Authorize(Roles = "PROVIDER")]
     [HttpPost("{engagementId:long}/reject")]
     public async Task<IActionResult> Reject(
-        long serviceId,
-        long engagementId)
+        [FromRoute] long serviceId,
+        [FromRoute] long engagementId)
     {
         var providerId = User.GetUserId();
 

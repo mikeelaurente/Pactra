@@ -1,6 +1,6 @@
-@host_address = http://localhost:5057
+@host_address = http://localhost:8081
 
-GET {{host_address}}/weatherforecast/
+GET {{host_address}}/services
 Accept: application/json
 
 ###

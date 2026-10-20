@@ -20,7 +20,7 @@ public class AgreementSignatureConfiguration
             .IsRequired();
 
         entity.HasOne(signature => signature.Agreement)
-            .WithMany()
+            .WithMany(agreement => agreement.Signatures)
             .HasForeignKey(signature => signature.AgreementId)
             .OnDelete(DeleteBehavior.Restrict);
 

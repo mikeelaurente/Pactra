@@ -14,7 +14,7 @@ public class ServicesController(IServiceService serviceService) : ControllerBase
 
     [Authorize(Roles = "PROVIDER")]
     [HttpPost]
-    public async Task<IActionResult> Create(CreateServiceRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateServiceRequest request)
     {
         var providerId = User.GetUserId();
         var service = await _serviceService.CreateAsync(providerId, request);
@@ -31,7 +31,7 @@ public class ServicesController(IServiceService serviceService) : ControllerBase
     }
 
     [HttpGet("{id:long}")]
-    public async Task<IActionResult> Get(long id)
+    public async Task<IActionResult> Get([FromRoute] long id)
     {
         var service = await _serviceService.GetAsync(id);
         return Ok(service);
@@ -40,8 +40,8 @@ public class ServicesController(IServiceService serviceService) : ControllerBase
     [Authorize(Roles = "PROVIDER")]
     [HttpPut("{id:long}")]
     public async Task<IActionResult> Update(
-        long id,
-        UpdateServiceRequest request)
+        [FromRoute] long id,
+        [FromBody] UpdateServiceRequest request)
     {
         var providerId = User.GetUserId();
 
@@ -55,7 +55,7 @@ public class ServicesController(IServiceService serviceService) : ControllerBase
 
     [Authorize(Roles = "PROVIDER")]
     [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
+    public async Task<IActionResult> Delete([FromRoute] long id)
     {
         var providerId = User.GetUserId();
 
