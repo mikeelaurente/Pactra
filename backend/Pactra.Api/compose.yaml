@@ -10,6 +10,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      proxy:
+        ipv4_address: 172.30.10.10
+      backend:
 
   db:
     image: postgres:17
@@ -24,6 +28,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - backend
 
   migrate:
     image: mcr.microsoft.com/dotnet/sdk:10.0
@@ -44,6 +50,38 @@ services:
         export PATH="$$PATH:/root/.dotnet/tools"
         dotnet restore Pactra.Api.csproj
         dotnet ef database update
+    networks:
+      - backend
+
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+    networks:
+      proxy:
+        ipv4_address: 172.30.10.2
 
 volumes:
   postgres_data:
+  caddy_data:
+  caddy_config:
+  
+networks:
+  proxy:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.10.0/24
+
+  backend:
+    driver: bridge
+    internal: true
