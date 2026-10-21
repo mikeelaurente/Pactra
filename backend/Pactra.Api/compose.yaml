@@ -39,11 +39,11 @@ services:
         condition: service_healthy
     entrypoint: ["/bin/sh", "-ec"]
     command:
-    - |
-      dotnet tool install --global dotnet-ef --version 10.0.12
-      export PATH="$$PATH:/root/.dotnet/tools"
-      dotnet restore Pactra.Api.csproj
-      dotnet ef database update
+      - |
+        dotnet tool install --global dotnet-ef --version 10.0.12
+        export PATH="$$PATH:/root/.dotnet/tools"
+        dotnet restore Pactra.Api.csproj
+        dotnet ef database update
 
 volumes:
   postgres_data:
