@@ -1,2 +1,3 @@
 <Solution>
+  <Project Path="Pactra.Tests/Pactra.Tests.csproj" />
 </Solution>

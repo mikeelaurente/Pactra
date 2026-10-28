@@ -7,12 +7,8 @@ using Pactra.Api.Domain.Entities.Engagement.History;
 
 namespace Pactra.Api.Infrastructure.Persistence;
 
-public class PactraDbContext : DbContext
+public class PactraDbContext(DbContextOptions<PactraDbContext> options) : DbContext(options)
 {
-    public PactraDbContext(DbContextOptions<PactraDbContext> options)
-        : base(options)
-    {
-    }
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<UserRole> UserRoles => Set<UserRole>();

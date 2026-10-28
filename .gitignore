@@ -482,3 +482,21 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# ==========================================
+# Pactra-specific
+# ==========================================
+
+# Local application configuration containing secrets
+appsettings.Local.json
+appsettings.*.local.json
+
+# Local secrets
+secrets.json
+
+# Docker local database storage
+.containers/
+postgres-data/
+
+# Additional coverage output
+coverage/
