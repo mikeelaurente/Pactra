@@ -1,0 +1,43 @@
+name: Pactra Backend CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/ci-backend.yml"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/ci-backend.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ASP.NET Core API
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore Pactra.slnx
+
+      - name: Build application
+        run: dotnet build Pactra.slnx --no-restore --configuration Release
