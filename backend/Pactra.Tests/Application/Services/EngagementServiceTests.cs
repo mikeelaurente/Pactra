@@ -8,11 +8,12 @@ namespace Pactra.Tests.Application.Services;
 
 public class EngagementServiceTests
 {
+    private readonly string _databaseName = Guid.NewGuid().ToString();
 
-    private static PactraDbContext CreateDbContext()
+    private PactraDbContext CreateDbContext()
     {
         var options = new DbContextOptionsBuilder<PactraDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .UseInMemoryDatabase(_databaseName)
             .Options;
 
         return new PactraDbContext(options);
@@ -86,6 +87,7 @@ public class EngagementServiceTests
             )
         );
 
+        Assert.Equal(EngagementStatus.Requested, engagement.Status);
         Assert.Equal("The provider is not authorized to accept this engagement.", exception.Message);
     }
 
@@ -113,5 +115,35 @@ public class EngagementServiceTests
 
         Assert.Equal("Only requested engagements can be accepted.", exception.Message);
         Assert.Equal(EngagementStatus.Negotiating, engagement.Status);
+    }
+
+    [Fact]
+    public async Task AcceptAsync_WhenServiceIdDoesNotMatch_ThrowsException()
+    {
+        await using var db = CreateDbContext();
+
+        var engagement = new Engagement
+        {
+            Id = 40,
+            ServiceId = 1,
+            ProviderId = 5,
+            Status = EngagementStatus.Requested
+        };
+
+        db.Engagements.Add(engagement);
+        await db.SaveChangesAsync();
+
+        var service = new EngagementService(db);
+
+        var exception = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+            service.AcceptAsync(
+                serviceId: 999,
+                engagementId: 40,
+                providerId: 5
+            )
+        );
+
+        Assert.Equal(EngagementStatus.Requested, engagement.Status);
+        Assert.Equal("Engagement not found.", exception.Message);
     }
 }

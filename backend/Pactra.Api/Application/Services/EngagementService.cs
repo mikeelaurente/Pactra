@@ -78,8 +78,7 @@ public class EngagementService(PactraDbContext db) : IEngagementService
                 "Only requested engagements can be accepted.");
         }
 
-        engagement.Status = EngagementStatus.Negotiating;
-        engagement.UpdatedAt = DateTimeOffset.UtcNow;
+        engagement.Accept();
 
         await _db.SaveChangesAsync();
 
@@ -107,8 +106,7 @@ public class EngagementService(PactraDbContext db) : IEngagementService
                 "Only requested engagements can be rejected.");
         }
 
-        engagement.Status = EngagementStatus.Rejected;
-        engagement.UpdatedAt = DateTimeOffset.UtcNow;
+        engagement.Reject();
 
         await _db.SaveChangesAsync();
 

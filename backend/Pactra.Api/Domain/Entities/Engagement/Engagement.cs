@@ -23,4 +23,27 @@ public class Engagement
     public Service Service { get; set; } = null!;
     public User Client { get; set; } = null!;
     public User Provider { get; set; } = null!;
+
+    public void Accept()
+    {
+        if (Status != EngagementStatus.Requested)
+        {
+            throw new InvalidOperationException(
+                "Only requested engagements can be accepted.");
+        }
+
+        Status = EngagementStatus.Negotiating;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+        public void Reject()
+    {
+        if (Status != EngagementStatus.Requested)
+        {
+            throw new InvalidOperationException(
+                "Only requested engagements can be rejected.");
+        }
+
+        Status = EngagementStatus.Rejected;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
 }
