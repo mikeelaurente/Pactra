@@ -11,13 +11,22 @@ public class Proposal
     public decimal Amount { get; set; }
     public string? Description { get; set; }
     public string? Terms { get; set; }
-
     public DateTimeOffset? ExpiresAt { get; set; }
-
     public ProposalStatus Status { get; set; }
-
     public DateTimeOffset CreatedAt { get; set; }
 
     public Engagement Engagement { get; set; } = null!;
     public User Proposer { get; set; } = null!;
+
+    public ProposalStatus GetEffectiveStatus(DateTimeOffset now)
+    {
+        if (Status == ProposalStatus.Pending &&
+            ExpiresAt.HasValue &&
+            ExpiresAt.Value <= now)
+        {
+            return ProposalStatus.Expired;
+        }
+
+        return Status;
+    }
 }

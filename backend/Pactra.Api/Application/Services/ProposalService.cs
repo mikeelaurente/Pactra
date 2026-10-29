@@ -76,21 +76,25 @@ public class ProposalService(PactraDbContext _db) : IProposalService
             throw new InvalidOperationException($"User with ID {userId} is not part of this engagement.");
         }
 
-       var proposal = await _db.Proposals
+        var proposal = await _db.Proposals
         .FirstOrDefaultAsync(p =>
             p.Id == proposalId &&
             p.EngagementId == engagementId)
         ?? throw new KeyNotFoundException(
             "Proposal not found for this engagement.");
 
-        if (proposal.Status != ProposalStatus.Pending)
+        var now = DateTimeOffset.UtcNow;
+
+        if (proposal.GetEffectiveStatus(now) == ProposalStatus.Expired)
         {
-            throw new InvalidOperationException($"Cannot accept a proposal that is not in the pending state.");
+            throw new InvalidOperationException(
+                "Cannot accept a proposal that has expired.");
         }
 
-        if (proposal.ExpiresAt.HasValue && proposal.ExpiresAt <= DateTimeOffset.UtcNow)
+        if (proposal.Status != ProposalStatus.Pending)
         {
-            throw new InvalidOperationException($"Cannot accept a proposal that has expired.");
+            throw new InvalidOperationException(
+                "Cannot accept a proposal that is not in the pending state.");
         }
 
         if (userId == proposal.ProposedBy)
@@ -106,8 +110,12 @@ public class ProposalService(PactraDbContext _db) : IProposalService
         }
 
         var competingProposals = await _db.Proposals
-            .Where(p => p.EngagementId == engagementId && p.Status == ProposalStatus.Pending && p.Id != proposalId)
-            .ToListAsync();
+        .Where(p =>
+            p.EngagementId == engagementId &&
+            p.Id != proposalId &&
+            p.Status == ProposalStatus.Pending &&
+            (!p.ExpiresAt.HasValue || p.ExpiresAt.Value > now))
+        .ToListAsync();
 
         foreach (var competingProposal in competingProposals)
         {
@@ -122,7 +130,7 @@ public class ProposalService(PactraDbContext _db) : IProposalService
             EngagementId = engagement.Id,
             Status = AgreementStatus.PendingSignatures,
             Version = 1,
-            CreatedAt = proposal.CreatedAt
+            CreatedAt = now
         });
 
         await _db.SaveChangesAsync();
