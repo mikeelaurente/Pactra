@@ -5,6 +5,7 @@ public enum ProposalStatus
     Pending,
     Accepted,
     Rejected,
+    Superseded,
     Withdrawn,
     Expired
 }

@@ -105,7 +105,14 @@ public class ProposalService(PactraDbContext _db) : IProposalService
             throw new InvalidOperationException($"An accepted proposal already exists for engagement with ID {engagementId}.");
         }
 
-        var now = DateTimeOffset.UtcNow;
+        var competingProposals = await _db.Proposals
+            .Where(p => p.EngagementId == engagementId && p.Status == ProposalStatus.Pending && p.Id != proposalId)
+            .ToListAsync();
+
+        foreach (var competingProposal in competingProposals)
+        {
+            competingProposal.Status = ProposalStatus.Superseded;
+        }
 
         proposal.Status = ProposalStatus.Accepted;
         engagement.Status = EngagementStatus.AgreementPending;
@@ -115,7 +122,7 @@ public class ProposalService(PactraDbContext _db) : IProposalService
             EngagementId = engagement.Id,
             Status = AgreementStatus.PendingSignatures,
             Version = 1,
-            CreatedAt = now
+            CreatedAt = proposal.CreatedAt
         });
 
         await _db.SaveChangesAsync();
@@ -130,7 +137,7 @@ public class ProposalService(PactraDbContext _db) : IProposalService
             Terms = proposal.Terms,
             Status = proposal.Status,
             ExpiresAt = proposal.ExpiresAt,
-            CreatedAt = now
+            CreatedAt = proposal.CreatedAt
         };
     }
 }
